@@ -26,8 +26,21 @@ const create = async ({ name }) => {
   return { code: 201, data: product };
 };
 
+const update = async ({ id, name }) => {
+  const productById = await productModel.getById(id);
+  if (!productById) return { code: 404, message: 'Product not found' };
+  if (!name || name === undefined) return { code: 400, message: '"name" is required' };
+  if (name.length < 5) {
+    return { code: 422, message: '"name" length must be at least 5 characters long' };
+  }
+  
+  const product = await productModel.update({ id, name });
+  return { code: 200, data: product };
+};
+
 module.exports = {
   getAll,
   getById,
   create,
+  update,
 };

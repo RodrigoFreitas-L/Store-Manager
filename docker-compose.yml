@@ -34,7 +34,7 @@ services:
     # Configura as variáveis de ambiente dentro do container
     environment:
       MYSQL_USER: root
-      MYSQL_PASSWORD: password
+      MYSQL_PASSWORD: 12486665
       MYSQL_HOST: db # Nome do service logo abaixo
       PORT: '3000'
 
@@ -43,7 +43,7 @@ services:
     container_name: store_manager_db
     image: mysql:5.7
     environment:
-      MYSQL_ROOT_PASSWORD: 'password'
+      MYSQL_ROOT_PASSWORD: 12486665
     ports:
       # Garanta que não haverá conflitos de porta com um banco que esteja
       # rodando localmente

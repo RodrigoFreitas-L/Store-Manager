@@ -1,6 +1,13 @@
 const express = require('express');
+const rescue = require('express-rescue');
+const productController = require('./controllers/productController');
 
 const app = express();
+app.use(express.json());
+
+app.get('/products', rescue(productController.getAll));
+
+app.get('/products/:id', rescue(productController.getById));
 
 // não remova esse endpoint, é para o avaliador funcionar /
 app.get('/', (_request, response) => {

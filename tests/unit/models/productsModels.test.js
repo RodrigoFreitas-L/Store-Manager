@@ -105,3 +105,23 @@ describe('Testa rota GET de produtos (chamando pelo id)', () => {
     });
   });
 });
+
+describe('Testa rota POST de produtos', () => {
+  describe('em casos de sucesso (insert)', () => {
+    before(async () => {
+      const execute = [{ insertId: 4 }];
+      sinon.stub(connection, 'execute').resolves(execute);
+    });
+
+    after(async () => {
+      connection.execute.restore();
+    });
+
+    it('retorna o produto criado', async () => {
+      const response = await productModel.create({ name: 'Paraquedas de bigorna' });
+      expect(response).to.be.an('object');
+      expect(response).to.have.all.keys('id', 'name');
+      expect(response.id).to.be.equal(4);
+    });
+  });
+});

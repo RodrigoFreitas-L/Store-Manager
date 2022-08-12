@@ -107,4 +107,46 @@ describe('Testes em service', () => {
       expect(response.data.name).to.be.equal('Paraquedas de bigorna');
     });
   });
+
+  describe('Criando produto com menos de 5 caracteres', () => {
+    const produtName = { name: 'Ayay' };
+    const productOutput = { code: 422, message: '"name" length must be at least 5 characters long' };
+
+    before(async () => {
+      sinon.stub(productModel, 'create').resolves(productOutput);
+    });
+
+    after(async () => {
+      productModel.create.restore();
+    });
+
+    it('retorna um objeto com o código 422 e mensagem de erro', async () => {
+      const response = await productService.create(produtName);
+      expect(response).to.be.an('object');
+      expect(response).to.have.all.keys('code', 'message');
+      expect(response.code).to.be.equal(422);
+      expect(response.message).to.be.equal(productOutput.message);
+    });
+  });
+
+  describe('Tentando criar produto sem passar um "name"', () => {
+    const name = {};
+    const outputMessage = { code: 400, message: '"name" is required' };
+
+    before(async () => {
+      sinon.stub(productModel, 'create').resolves(outputMessage);
+    });
+
+    after(async () => {
+      productModel.create.restore();
+    });
+
+    it('retorna um objeto com o código 400 e mensagem de erro', async () => {
+      const response = await productService.create(name);
+      expect(response).to.be.an('object');
+      expect(response).to.have.all.keys('code', 'message');
+      expect(response.code).to.be.equal(400);
+      expect(response.message).to.be.equal(outputMessage.message);
+    });
+  });
 });

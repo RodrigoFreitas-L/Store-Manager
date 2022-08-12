@@ -85,4 +85,26 @@ describe('Testes em service', () => {
       });
     });
   });
+
+  describe('Criando produto', () => {
+    const productName = { name: 'Paraquedas de bigorna' };
+    const productOutput = { id: 4, name: 'Paraquedas de bigorna' };
+
+    before(async () => {
+      sinon.stub(productModel, 'create').resolves(productOutput);
+    });
+
+    after(async () => {
+      productModel.create.restore();
+    });
+
+    it('retorna um objeto com o código 201 e seu novo produto', async () => {
+      const response = await productService.create(productName);
+      expect(response).to.be.an('object');
+      expect(response).to.have.all.keys('code', 'data');
+      expect(response.data).to.have.all.keys('id', 'name');
+      expect(response.data.id).to.be.equal(4);
+      expect(response.data.name).to.be.equal('Paraquedas de bigorna');
+    });
+  });
 });

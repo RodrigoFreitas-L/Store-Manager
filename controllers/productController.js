@@ -19,9 +19,7 @@ const getById = async (req, res) => {
 };
 
 const create = async (req, res) => {
-  const { name } = req.body;
-  
-  const { code, message, data } = await productService.create({ name });
+  const { code, message, data } = await productService.create(req.body);
 
   if (message) return res.status(code).json({ message });
 

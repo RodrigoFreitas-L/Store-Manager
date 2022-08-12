@@ -9,12 +9,12 @@ const getAll = async () => {
 };
 
 const getById = async (id) => {
-  const [productById] = await connection
+  const [[productById]] = await connection
     .execute('SELECT * FROM StoreManager.products WHERE id = ?', [id]);
 
   if (!productById || productById.length === 0) return null;
 
-  return productById[0];
+  return productById;
 };
 
 const create = async ({ name }) => {

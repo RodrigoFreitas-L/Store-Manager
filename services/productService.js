@@ -3,13 +3,17 @@ const productModel = require('../models/productModel');
 const getAll = async () => {
   const products = await productModel.getAll();
 
-  return products;
+  if (!products) return { code: 404, message: 'Products not found' };
+
+  return { code: 200, data: products };
 };
 
 const getById = async (id) => {
   const product = await productModel.getById(id);
 
-  return product;
+  if (!product) return { code: 404, message: 'Product not found' };
+
+  return { code: 200, data: product };
 };
 
 module.exports = {
